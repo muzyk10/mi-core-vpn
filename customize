@@ -2,7 +2,7 @@
 #
 # Put customizations to your image in this file.
 
-VPNADM_VERSION='0.1'
+VPNADM_VERSION='0.2'
 
 PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
 
@@ -31,7 +31,8 @@ echo "* Setup permissions for vpnadm folder"
 chown -R vpnadm:www /opt/vpnadm
 
 echo "* Install missing dependencies via pip"
-pip3.6 install -r /opt/vpnadm/requirements.txt
+grep -v 'cryptography' /opt/vpnadm/requirements.txt > /tmp/requirements.txt
+pip3.6 install -r /tmp/requirements.txt
 
 echo "* Activate munin plugins"
 /opt/core/bin/munin-node-plugins ${MUNIN_PLUGINS}
