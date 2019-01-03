@@ -11,38 +11,37 @@ _insertreplace() {
 	local file="${1}"; shift
 	local key="${1}"; shift
 	local value="${@}"
-	if [[ "${value}" != "True" && "${value}" != "False" ]]; then
+	if [[ "${value}" != "True"  && \
+		  "${value}" != "False" && \
+		  "${value:0:1}" != "[" ]]; then
 		value="\"${value}\""
 	fi
 	if grep -q "${key}" ${file}; then
-		gsed -i "s/^${key} =.*/${key} = ${value}/g" ${file}
+		gsed -i "s/^${key} \+=.*/${key} = ${value}/g" ${file}
 	else
 		echo "${key} = ${value}" >> ${file}
 	fi
 }
 
 VPNADM_SETTINGS='/opt/vpnadm/vpnadm_web/settings.py'
-VPNADM_SQLITEDB='/var/openvpn/db.sqlite3'
 
+_insertreplace ${VPNADM_SETTINGS} DEBUG False
+_insertreplace ${VPNADM_SETTINGS} ALLOWED_HOSTS "[ '$(hostname)', '127.0.0.1', '::1' ]"
 _insertreplace ${VPNADM_SETTINGS} OPENVPN_PATH /var/openvpn
 _insertreplace ${VPNADM_SETTINGS} OPENVPN_MANAGEMENT_SOCKET /var/run/openvpn.sock
 _insertreplace ${VPNADM_SETTINGS} OPENVPN_HOSTNAME $(hostname)
-# TODO: _insertreplace ${VPNADM_SETTINGS} SQLITEDB ${VPNADM_SQLITEDB}
-
-
-# Verify if database already exists
-if [[ ! -f ${VPNADM_SQLITEDB} ]]; then
-	CREATE_SUPERUSER=1
-fi
+_insertreplace ${VPNADM_SETTINGS} DB_DIR /var/openvpn
 
 # Init Django data and database (if it doesn't exists)
 /opt/vpnadm/manage.py migrate --noinput --fake-initial
 
-# Create SuperUser
-if [[ ${CREATE_SUPERUSER} == 1 ]]; then
-	echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', '', '${ADMIN_VPNADM}')" | \
-		/opt/vpnadm/manage.py shell
-fi
+# Create SuperUser if it doesn't exists
+cat <<EOF | /opt/vpnadm/manage.py shell
+from django.contrib.auth import get_user_model
+User = get_user_model()
+User.objects.filter(username="admin").exists() or \
+    User.objects.create_superuser("admin", "", "${ADMIN_VPNADM}")
+EOF
 
 # Enable gunicorn service
 svcadm enable svc:/network/gunicorn:vpnadm
