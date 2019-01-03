@@ -9,3 +9,7 @@ if zfs list ${DDS} 1>/dev/null 2>&1; then
 		zfs set mountpoint=/var/openvpn ${DDS}/openvpn
 	fi
 fi
+
+mkdir -p /var/openvpn
+chgrp vpnadm /var/openvpn
+chmod 770 /var/openvpn
