@@ -17,7 +17,7 @@ _insertreplace() {
 		value="\"${value}\""
 	fi
 	if grep -q "${key}" ${file}; then
-		gsed -i "s/^${key} \+=.*/${key} = ${value}/g" ${file}
+		gsed -i "s|^${key} \+=.*|${key} = ${value}|g" ${file}
 	else
 		echo "${key} = ${value}" >> ${file}
 	fi

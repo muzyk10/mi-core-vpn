@@ -16,5 +16,5 @@ mkdir -p "${SSL_HOME}"
 svcadm enable ${SVC_NAME}
 
 # Try to provide Let's Encrypt SSL certificate
-/opt/core/bin/ssl-generator.sh ${SSL_HOME} nginx_ssl ${SVC_NAME}
+/opt/core/bin/ssl-generator.sh ${SSL_HOME} nginx_ssl nginx ${SVC_NAME}
 
