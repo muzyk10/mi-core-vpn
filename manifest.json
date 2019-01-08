@@ -5,7 +5,7 @@
   "organization": "SkyLime",
   "brand":        "Instance",
   "homepage":     "https://github.com/skylime/mi-core-vpn",
-  "base":         "9051a533-89c0-459a-b049-992dd038d846",
+  "base":         "48ad3ef3-d339-41cc-baef-b1c394e678dd",
   "minram":       512,
   "customer_metadata": {
     "admin_authorized_keys": {

@@ -6,4 +6,4 @@ description="core.io vpn - OpenVPN Service with WebUI"
 homepage="https://github.com/skylime/mi-core-vpn"
 users="root admin"
 minram=512
-base="9051a533-89c0-459a-b049-992dd038d846"
+base="48ad3ef3-d339-41cc-baef-b1c394e678dd"
