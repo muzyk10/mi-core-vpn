@@ -1,6 +1,7 @@
 # OpenVPN
-openvpn
+https://pkgsrc.smartos.skylime.net/skylime-extra/2018Q3/x86_64/openvpn-2.4.6nb4.tgz
 # VPNadm web UI
 nginx
+py36-sqlite3
 py36-gunicorn
 py36-cryptography
