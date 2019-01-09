@@ -4,4 +4,7 @@
 ╰──────────────────────────────────────────────────────────────────────╯
  
 [ %name% %version% | %homepage% ]
- 
+
+To generate a new OpenVPN server config and restart the service:
+  /opt/core/bin/openvpn-gen-config
+
