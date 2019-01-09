@@ -43,5 +43,9 @@ User.objects.filter(username="admin").exists() or \
     User.objects.create_superuser("admin", "", "${ADMIN_VPNADM}")
 EOF
 
+# Setup permissions for database file
+chown vpnadm:vpnadm /var/openvpn/db.sqlite3
+chmod 660 /var/openvpn/db.sqlite3
+
 # Enable gunicorn service
 svcadm enable svc:/network/gunicorn:vpnadm
