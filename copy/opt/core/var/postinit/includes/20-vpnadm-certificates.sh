@@ -22,4 +22,4 @@ mkdir -p "${OPENVPN_PATH}/certs"
 	${OPENVPN_PATH}/certs/tls_auth.key
 
 # Update permissions
-chmod 440 "${OPENVPN_PATH}/certs/*"
+chmod 440 ${OPENVPN_PATH}/certs/*
