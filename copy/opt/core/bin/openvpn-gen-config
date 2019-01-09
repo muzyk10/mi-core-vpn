@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo "OpenVPN: generate server config"
+/opt/vpnadm/manage.py generate_server_config \
+	> /opt/local/etc/openvpn/openvpn.conf
+
+echo "OpenVPN: restart"
+svcadm restart svc:/pkgsrc/openvpn:default

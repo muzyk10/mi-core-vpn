@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Enable NAT for one Subnet
+
+IPNAT_FILE="/etc/ipf/ipnat.conf"
+SUBNET=${1}
+
+if [[ -z "${SUBNET}" ]]; then
+	echo "${0} [SUBNET]"
+	echo
+	echo "Example:"
+	echo "  ${0} 192.168.0.0/16"
+	exit 1
+fi
+
+cat <<EOF > ${IPNAT_FILE}
+map net0 ${SUBNET} -> 0/32 portmap tcp/udp 1025:65534
+map net0 ${SUBNET} -> 0/32
+EOF
+
+svcadm enable ipfilter
